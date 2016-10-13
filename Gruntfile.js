@@ -38,6 +38,7 @@ module.exports = function(grunt) {
     eslint: {
       target: [
         // Add list of files to lint here
+        'build.js'
       ]
     },
 
@@ -88,7 +89,7 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat', 'uglify'
+  grunt.registerTask('build', ['concat', 'eslint', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
