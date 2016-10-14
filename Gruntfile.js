@@ -7,7 +7,8 @@ module.exports = function(grunt) {
         seperator: ';'
       },
       dist: {
-        src: ['app/config.js','app/models/link.js', 'app/models/user.js', 'app/collections/links.js', 'app/collections/users.js'],
+        src:['public/**/*.js'],
+//      src: ['app/config.js','app/models/link.js', 'app/models/user.js', 'app/collections/links.js', 'app/collections/users.js'],
         dest: 'build.js'
       }
     },
@@ -38,7 +39,8 @@ module.exports = function(grunt) {
     eslint: {
       target: [
         // Add list of files to lint here
-        'build.js'
+        'app/*.js', 'app/**/*.js'
+        // 'build.js'
       ]
     },
 
@@ -50,10 +52,14 @@ module.exports = function(grunt) {
         files: [
           'public/client/**/*.js',
           'public/lib/**/*.js',
+          'app/*.js',
+          'app/**/*.js'
         ],
         tasks: [
-          'concat',
-          'uglify'
+          // 'concat',
+          'mochaTest',
+          'eslint'
+          // 'uglify'
         ]
       },
       css: {
@@ -89,19 +95,20 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat', 'eslint', 'uglify'
+  grunt.registerTask('build', ['watch'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run(['concat', 'uglify']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    'build'
   ]);
 
 
